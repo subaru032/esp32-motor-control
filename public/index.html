@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Motor ESP32 - Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 Control Remoto de Motor ESP32</h1>
+            <p class="subtitle">Controla tu motor desde cualquier lugar del mundo</p>
+        </header>
+        
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="label">Ángulo Actual:</span>
+                <span id="currentAngle" class="angle-value">45°</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Objetivo:</span>
+                <span id="targetAngle" class="angle-value">90°</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Estado:</span>
+                <span id="motorStatus" class="status-value">🟢 Conectado</span>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <!-- Control por Dirección -->
+            <div class="control-section">
+                <h3>🎮 Control por Dirección</h3>
+                <div class="direction-buttons">
+                    <button class="btn btn-direction left" onclick="setAngle(0)">
+                        <span class="icon">↺</span>
+                        <span>Izquierda (0°)</span>
+                    </button>
+                    <button class="btn btn-direction right" onclick="setAngle(270)">
+                        <span class="icon">↻</span>
+                        <span>Derecha (270°)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Control por Ángulo Exacto -->
+            <div class="control-section">
+                <h3>🎯 Control Preciso</h3>
+                <div class="angle-input-group">
+                    <input type="number" id="angleInput" min="0" max="270" value="90" 
+                           placeholder="Ingresa grados (0-270)">
+                    <button class="btn btn-primary" onclick="setCustomAngle()">
+                        Mover
+                    </button>
+                </div>
+                
+                <div class="slider-container">
+                    <input type="range" id="angleSlider" min="0" max="270" value="90" 
+                           oninput="updateSliderValue(this.value)">
+                    <div class="slider-value">
+                        <span id="sliderValue">90°</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ángulos Rápidos -->
+            <div class="control-section">
+                <h3>⚡ Ángulos Rápidos</h3>
+                <div class="quick-buttons">
+                    <button class="btn btn-quick" onclick="setAngle(45)">45°</button>
+                    <button class="btn btn-quick" onclick="setAngle(90)">90°</button>
+                    <button class="btn btn-quick" onclick="setAngle(135)">135°</button>
+                    <button class="btn btn-quick" onclick="setAngle(180)">180°</button>
+                    <button class="btn btn-quick" onclick="setAngle(225)">225°</button>
+                </div>
+            </div>
+
+            <!-- Control de Emergencia -->
+            <div class="control-section">
+                <button class="btn btn-stop" onclick="stopMotor()">
+                    <span class="icon">🛑</span>
+                    PARAR MOTOR
+                </button>
+            </div>
+        </div>
+
+        <footer class="info-panel">
+            <div class="connection-info">
+                <span id="connectionStatus" class="status-connected">✅ Conectado al servidor</span>
+                <span class="update-time">Actualizado: <span id="lastUpdate">--:--:--</span></span>
+            </div>
+            <div class="server-info">
+                <span>Servidor: Railway 🚄 | Modo: Simulación</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
